@@ -305,8 +305,8 @@ bool VescUart::processReadPacket(bool deviceType, uint8_t * message) {
 
 				DieBieMScells.noOfCells = message[ind++];
 
-				for (uint8_t i=0; i<12;i++){
-					DieBieMScells.cellsVoltage[i] = buffer_get_float16(message, 1000.0, &ind);
+				for (auto &f : DieBieMScells.cellsVoltage) {
+					f = buffer_get_float16(message, 1000.0, &ind);
 				}
 
 				return true;

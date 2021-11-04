@@ -5,6 +5,7 @@
 #include "datatypes.h"
 #include "buffer.h"
 #include "crc.h"
+#include <array>
 
 class VescUart
 {
@@ -55,7 +56,7 @@ class VescUart
 
 	struct DieBieMScellsPackage {
 		uint8_t noOfCells;
-		float cellsVoltage[11];
+		std::array<float,11> cellsVoltage;
 	};
 
 	struct FWversionPackage {
