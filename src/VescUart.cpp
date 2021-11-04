@@ -661,10 +661,10 @@ void VescUart::setLocalProfile(bool store, bool forward_can, bool ack, bool divi
 	uint8_t payload[38];
 
 	payload[index++] = COMM_SET_MCCONF_TEMP_SETUP;
-	payload[index++] ? store : 1, 0;
-	payload[index++] ? forward_can : 1, 0;
-	payload[index++] ? ack : 1, 0;
-	payload[index++] ? divide_by_controllers : 1, 0;
+	payload[index++] = store ? 1 : 0;
+	payload[index++] = forward_can ? 1 : 0;
+	payload[index++] = ack ? 1 : 0;
+	payload[index++] = divide_by_controllers ? 1 : 0;
 	buffer_append_float32(payload, current_min_rel, 1.0, &index);
 	buffer_append_float32(payload, current_max_rel, 1.0, &index);
 	buffer_append_float32(payload, speed_max_reverse, 1.0, &index);

@@ -1,6 +1,8 @@
-#
+# Ilektron's changes
 
 Modified version to support COMM_FORWARD_CAN
+
+TODO: Need to figure out if getting the VESC telemetry needs to be forwarded over CAN, too. I suspect it might 
 
 # VescUart
 
