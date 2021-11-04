@@ -56,7 +56,7 @@ class VescUart
 
 	struct DieBieMScellsPackage {
 		uint8_t noOfCells;
-		std::array<float,11> cellsVoltage;
+		std::array<float,12> cellsVoltage;
 	};
 
 	struct FWversionPackage {
