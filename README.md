@@ -1,3 +1,7 @@
+#
+
+Modified version to support COMM_FORWARD_CAN
+
 # VescUart
 
 Arduino library for interfacing with a VESC over UART. This library is based upon the library written by RollingGecko (https://github.com/RollingGecko/VescUartControl). The library is updated for the newest VESC firmware (FW3.40) and cleaned up a bit. The library is not backwards compatible, so you have to upload the newest firmware to your VESC.
@@ -22,7 +26,7 @@ void setup() {
 }
 ```
 
-You can now safely use the functions and change the values of the class. 
+You can now safely use the functions and change the values of the class.
 
 Getting VESC telemetry is easy:
 

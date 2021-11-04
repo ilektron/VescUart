@@ -342,10 +342,10 @@ bool VescUart::getVescValues(void) {
 bool VescUart::getVescValuesSelective(uint32_t mask) {
 	uint8_t command[5];
 	command[0] = { COMM_GET_VALUES_SELECTIVE };
-	command[1] = { mask >> 24 }; //mask MSB
-	command[2] = { mask >> 16 & 0xFF }; //mask
-	command[3] = { mask >> 8 & 0xFF }; //mask
-	command[4] = { mask & 0xFF }; //mask LSB
+	command[1] = { static_cast<uint8_t>(mask >> 24) }; //mask MSB
+	command[2] = { static_cast<uint8_t>(mask >> 16 & 0xFF) }; //mask
+	command[3] = { static_cast<uint8_t>(mask >> 8 & 0xFF) }; //mask
+	command[4] = { static_cast<uint8_t>(mask & 0xFF) }; //mask LSB
 	uint8_t payload[256];
 
 	packSendPayload(command, 5);
@@ -366,10 +366,10 @@ bool VescUart::getVescValuesSelective(uint32_t mask) {
 bool VescUart::getVescValuesSetupSelective(uint32_t mask) {
 	uint8_t command[5];
 	command[0] = { COMM_GET_VALUES_SETUP_SELECTIVE };
-	command[1] = { mask >> 24 }; //mask MSB
-	command[2] = { mask >> 16 & 0xFF }; //mask
-	command[3] = { mask >> 8 & 0xFF }; //mask
-	command[4] = { mask & 0xFF }; //mask LSB
+	command[1] = { static_cast<uint8_t>(mask >> 24) }; //mask MSB
+	command[2] = { static_cast<uint8_t>(mask >> 16 & 0xFF) }; //mask
+	command[3] = { static_cast<uint8_t>(mask >> 8 & 0xFF) }; //mask
+	command[4] = { static_cast<uint8_t>(mask & 0xFF) }; //mask LSB
 	uint8_t payload[256];
 
 	packSendPayload(command, 5);
@@ -578,6 +578,18 @@ void VescUart::setCurrent(float current) {
 	packSendPayload(payload, 5);
 }
 
+void VescUart::setCurrent(float current, int motorId) {
+	int32_t index = 0;
+	uint8_t payload[7];
+
+	payload[index++] = COMM_FORWARD_CAN ;
+	payload[index++] = motorId;
+	payload[index++] = COMM_SET_CURRENT;
+	buffer_append_int32(payload, (int32_t)(current * 1000), &index);
+
+	packSendPayload(payload, 7);
+}
+
 void VescUart::setBrakeCurrent(float brakeCurrent) {
 	int32_t index = 0;
 	uint8_t payload[5];
@@ -586,6 +598,18 @@ void VescUart::setBrakeCurrent(float brakeCurrent) {
 	buffer_append_int32(payload, (int32_t)(brakeCurrent * 1000), &index);
 
 	packSendPayload(payload, 5);
+}
+
+void VescUart::setBrakeCurrent(float brakeCurrent, int motorId) {
+	int32_t index = 0;
+	uint8_t payload[7];
+
+	payload[index++] = COMM_FORWARD_CAN ;
+	payload[index++] = motorId;
+	payload[index++] = COMM_SET_CURRENT_BRAKE;
+	buffer_append_int32(payload, (int32_t)(brakeCurrent * 1000), &index);
+
+	packSendPayload(payload, 7);
 }
 
 void VescUart::setRPM(float rpm) {
@@ -598,6 +622,18 @@ void VescUart::setRPM(float rpm) {
 	packSendPayload(payload, 5);
 }
 
+void VescUart::setRPM(float rpm, int motorId) {
+	int32_t index = 0;
+	uint8_t payload[7];
+
+	payload[index++] = COMM_FORWARD_CAN ;
+	payload[index++] = motorId;
+	payload[index++] = COMM_SET_RPM ;
+	buffer_append_int32(payload, (int32_t)(rpm), &index);
+
+	packSendPayload(payload, 7);
+}
+
 void VescUart::setDuty(float duty) {
 	int32_t index = 0;
 	uint8_t payload[5];
@@ -606,6 +642,18 @@ void VescUart::setDuty(float duty) {
 	buffer_append_int32(payload, (int32_t)(duty * 100000), &index);
 
 	packSendPayload(payload, 5);
+}
+
+void VescUart::setDuty(float duty, int motorId) {
+	int32_t index = 0;
+	uint8_t payload[7];
+
+	payload[index++] = COMM_FORWARD_CAN ;
+	payload[index++] = motorId;
+	payload[index++] = COMM_SET_DUTY;
+	buffer_append_int32(payload, (int32_t)(duty * 100000), &index);
+
+	packSendPayload(payload, 7);
 }
 
 void VescUart::setLocalProfile(bool store, bool forward_can, bool ack, bool divide_by_controllers, float current_min_rel, float current_max_rel, float speed_max_reverse, float speed_max, float duty_min, float duty_max, float watt_min, float watt_max) {

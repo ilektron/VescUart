@@ -138,10 +138,24 @@ class VescUart
 		void setCurrent(float current);
 
 		/**
+		 * @brief      Set the current to drive the motor
+		 * @param      current  - The current to apply
+		 * @param	     motorId  - The ID on the canbus who should receive the command
+		 */
+		void setCurrent(float current, int motorId);
+
+		/**
 		 * @brief      Set the current to brake the motor
 		 * @param      brakeCurrent  - The current to apply
 		 */
 		void setBrakeCurrent(float brakeCurrent);
+
+		/**
+		 * @brief      Set the current to brake the motor
+		 * @param      brakeCurrent  - The current to apply
+		 * @param	     motorId  - The ID on the canbus who should receive the command
+		 */
+		void setBrakeCurrent(float brakeCurrent, int motorId);
 
 		/**
 		 * @brief      Set the rpm of the motor
@@ -150,10 +164,25 @@ class VescUart
 		void setRPM(float rpm);
 
 		/**
+		 * @brief      Set the rpm of the motor
+		 * @param      rpm  - The desired RPM (actually eRPM = RPM * poles)
+		 * @param	     motorId  - The ID on the canbus who should receive the command
+		 */
+		void setRPM(float rpm, int motorId);
+
+		/**
 		 * @brief      Set the duty of the motor
 		 * @param      duty  - The desired duty (0.0-1.0)
 		 */
 		void setDuty(float duty);
+
+		/**
+		 * @brief      Set the duty of the motor
+		 * @param      duty  - The desired duty (0.0-1.0)
+		 * @param	     motorId  - The ID on the canbus who should receive the command
+		 */
+		void setDuty(float duty, int motorId);
+
 
 		/**
 		 * @brief      Help Function to print struct dataPackage over Serial for Debug
