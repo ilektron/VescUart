@@ -1,31 +1,53 @@
-/*
-	Copyright 2012-2014 Benjamin Vedder	benjamin@vedder.se
+#pragma once
 
-	This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+// Simple helper class for serializing and deserializing data
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+#include <cstdint>
+#include <array>
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    */
 
-/*
- * buffer.h
- *
- *  Created on: 13 maj 2013
- *      Author: benjamin
- */
+template<std::size_t _size>
+class buffer 
+{
+public:
 
-#ifndef BUFFER_H_
-#define BUFFER_H_
+    // Default initializor will just start at the beginning.
+    // TODO: Create initializers for data
+    buffer()
+    {
+        _p = _data.begin();
+    }
 
-#include <stdint.h>
+    ~buffer() = default;
+    
+    // Just throw a type in here and it will append it to the buffer
+    template<class T> int append(T val) 
+    {
+        v = static_cast<uint64_t>(val);
+        for (size_t i = sizeof(T) - 1; i >= 0; i--, _p++)
+        {
+            *_p = (v >> (i * 8)) & 0xFF; 
+        }
+        return 0;
+        
+    };
+
+    template<class T> T get()
+    {
+        T val{};
+        for (size_t i = 0; i < sizeof(T); i++, _p++)
+        {
+            val |=  (*_p << (i * 8)); 
+        }
+        return val;
+    };
+
+private:
+    // Keep the data and the index in an actual std::array for safe keeping
+    std::array<uint8_t, _size> _data;
+    typename std::array<uint8_t, _size>::iterator _p;
+
+};
 
 void buffer_append_int16(uint8_t* buffer, int16_t number, int32_t *index);
 void buffer_append_uint16(uint8_t* buffer, uint16_t number, int32_t *index);
@@ -41,4 +63,3 @@ float buffer_get_float16(const uint8_t *buffer, float scale, int32_t *index);
 float buffer_get_float32(const uint8_t *buffer, float scale, int32_t *index);
 bool buffer_get_bool(const uint8_t *buffer, int32_t *index);
 void buffer_append_bool(uint8_t *buffer,bool value, int32_t *index);
-#endif /* BUFFER_H_ */
