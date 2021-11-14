@@ -46,20 +46,20 @@ int VescUart::receiveUartMessage(uint8_t * payloadReceived) {
 					case 2:
 						endMessage = messageReceived[1] + 5; //Payload size + 2 for sice + 3 for SRC and End.
 						lenPayload = messageReceived[1];
-					break;
+						break;
 
 					case 3:
 						// ToDo: Add Message Handling > 255 (starting with 3)
 						if( debugPort != NULL ){
 							debugPort->println("Message is larger than 256 bytes - not supported");
 						}
-					break;
+						break;
 
 					default:
 						if( debugPort != NULL ){
 							debugPort->println("Unvalid start bit");
 						}
-					break;
+						break;
 				}
 			}
 
@@ -163,7 +163,7 @@ int VescUart::packSendPayload(uint8_t * payload, int lenPay) {
 	messageSend[count++] = 3;
 	messageSend[count] = '\0';
 
-	if(debugPort!=NULL){
+	if(debugPort!=nullptr){
 		debugPort->print("UART package send: "); serialPrint(messageSend, count);
 	}
 
